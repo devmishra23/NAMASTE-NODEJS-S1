@@ -1,9 +1,9 @@
 
 //require("./app2.js");   //  one module into other
-var name="namaste node Js";
+var name="namaste Node js";
 var a= 10;
 var b=20;
-
+// var c=30;
 // console.log(a+b);
 // console.log(name);
 
