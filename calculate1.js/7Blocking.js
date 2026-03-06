@@ -1,4 +1,4 @@
-const crypto=require("node:crypto");
+const crypto=require("node:crypto"); // CRYPTO IS BASICALLY NODE JS CORE MODULE
 console.log("Hello world");
 
 
@@ -18,7 +18,7 @@ console.log("First key is Generated");
 crypto.pbkdf2("password","salt",5000000,50,"sha512",(err,key)=>{
 console.log("second key is Generated");
 });
-
+ 
 
 function multiplyfn(x,y){
     const result=a*b;
