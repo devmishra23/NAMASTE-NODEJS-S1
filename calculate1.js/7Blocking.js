@@ -26,4 +26,4 @@ function multiplyfn(x,y){
 }
 
 var c=multiplyfn(a,b);
-console.log("Multiplication result is: ",c )
+console.log("Multiplication result is: ",c ) 
