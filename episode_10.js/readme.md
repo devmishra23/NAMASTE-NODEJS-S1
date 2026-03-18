@@ -6,6 +6,7 @@ Whenever there's an asynchronous task, V8 offloads it to libuv. For example, whe
 
     UV_THREADPOOL_SIZE=4
 Q: Suppose you have a server with many incoming requests, and users are hitting APIs. Do these APIs use the thread pool?
+
 A : No.
 
 In the libuv library, when it interacts with the OS for networking tasks, it uses sockets. Networking operations occur through these sockets. Each socket has a socket descriptor, also known as a file descriptor (although this has nothing to do with the file system).
