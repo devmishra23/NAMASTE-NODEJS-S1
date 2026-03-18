@@ -5,7 +5,9 @@ Whenever there's an asynchronous task, V8 offloads it to libuv. For example, whe
  In Node.js, the default size of the thread pool is 4 threads:
 
     UV_THREADPOOL_SIZE=4
+    
 Q: Suppose you have a server with many incoming requests, and users are hitting APIs. Do these APIs use the thread pool?
+
 A : No.
 
 In the libuv library, when it interacts with the OS for networking tasks, it uses sockets. Networking operations occur through these sockets. Each socket has a socket descriptor, also known as a file descriptor (although this has nothing to do with the file system).
@@ -16,24 +18,28 @@ Instead, the system uses efficient mechanisms provided by the OS, such as epoll 
 
 Here How it works:
 
-epoll (Linux) and kqueue (macOS) are notification mechanisms used to manage many connections efficiently.
-When you create an epoll or kqueue descriptor, it monitors multiple file descriptors (sockets) for activity.
-The OS kernel manages these mechanisms and notifies libuv of any changes or activity on the sockets.
-This approach allows the server to handle a large number of connections efficiently without creating a thread for each one.
-The kernel-level mechanisms, like epoll and kqueue , provide a scalable way to manage multiple connections, significantly improving performance and resource utilization in a high-concurrency environment.
+. epoll (Linux) and kqueue (macOS) are notification mechanisms used to manage many connections efficiently.
+. When you create an epoll or kqueue descriptor, it monitors multiple file descriptors (sockets) for activity.
+. The OS kernel manages these mechanisms and notifies libuv of any changes or activity on the sockets.
+. This approach allows the server to handle a large number of connections efficiently without creating a thread for each one.
+
+ The kernel-level mechanisms, like epoll and kqueue , provide a scalable way to manage multiple connections, significantly improving performance and  resource utilization in a high-concurrency environment.
 
 Important points to follow:
-1 DON'T BLOCK THE MAIN THREAD
+
+1 . DON'T BLOCK THE MAIN THREAD
 
 Don't use sync methods
 Don't do operations on heavy JSON Object it will make load on main thread.
 Avoid complex Regular Expression.
 Avoid Complex calculations and big or infine loops.
-2 Data Structures is important
+
+2 . Data Structures is important
 
 epoll - Red Balck tree
 timers -min heap
-3 Naming is very Important
 
-4 There's is always a lot to learn.
+3 .  Naming is very Important
+
+4 . There's is always a lot to learn.
 
