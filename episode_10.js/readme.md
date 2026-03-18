@@ -43,3 +43,173 @@ timers -min heap
 
 4 . There's is always a lot to learn.
 
+::::::::::::::::::::::::::::::::::::::::::::
+
+Q: What are Event Emitters and Socket Descriptors in Node.js?
+
+🟢 PART 1: EVENT EMITTER
+🔹 Final Answer:
+
+👉 EventEmitter = YES → Used for handling events in Node.js (core pattern)
+
+🔹 Core Concept
+
+Node.js is event-driven
+
+Everything works on:
+
+“Emit event → Listen → Execute callback”
+
+👉 Provided by:
+
+Node.js core module events
+
+🔹 How It Works (Step-by-step)
+
+Create an event emitter
+
+Register a listener (on)
+
+Emit an event (emit)
+
+Callback runs
+
+Example:
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+emitter.on('request', () => {
+  console.log('Request received');
+});
+
+emitter.emit('request');
+
+👉 Flow:
+
+emit → listener → callback execution
+
+🔹 Internal Working (Deep Insight)
+
+EventEmitter stores listeners in:
+
+HashMap (eventName → array of callbacks)
+
+When emit() is called:
+
+It loops through all callbacks
+
+Executes them synchronously
+
+🔥 Key Insight (Interview Gold)
+
+👉 EventEmitter is:
+
+Synchronous trigger mechanism inside async architecture
+
+⚠️ Important:
+
+It does NOT make things async
+
+It just notifies events
+
+🔹 Where It Is Used
+
+HTTP server
+
+Streams
+
+File system events
+
+Custom events
+
+🧠 Important Notes
+
+Too many listeners → memory leak warning
+
+Use .once() for one-time events
+
+Always handle 'error' events
+
+🟢 PART 2: SOCKET DESCRIPTORS
+🔹 Final Answer:
+
+👉 Socket Descriptor = YES → Used by OS to identify network connections
+
+🔹 Core Concept
+
+A socket = communication endpoint (client ↔ server)
+
+A socket descriptor (file descriptor) = integer ID
+
+👉 Example:
+
+Socket FD = 5
+Socket FD = 8
+
+👉 Managed by OS kernel
+
+🔹 How It Works (Step-by-step)
+
+Client sends request
+
+Server creates socket
+
+OS assigns file descriptor (FD)
+
+Node/libuv registers FD with:
+
+epoll (Linux)
+
+kqueue (macOS)
+
+OS monitors FD
+
+When data is ready → event loop is notified
+
+🔹 Internal Flow (Very Important)
+
+👉 Flow:
+
+Client → Socket → FD → epoll → libuv → Event Loop → Callback
+🔥 Key Insight (Interview Gold)
+
+👉 Socket descriptor is:
+
+Just a number representing a connection
+
+👉 Node doesn’t track connections manually:
+
+OS + epoll handles everything efficiently
+
+🔹 Why This Matters
+
+Enables:
+
+High scalability
+
+Non-blocking I/O
+
+Thousands of concurrent users
+
+🧠 Important Notes
+
+FD is NOT a file → just an identifier
+
+epoll uses:
+
+Red-Black Tree (for tracking FDs)
+
+No thread per connection
+
+🔥 FINAL CONCLUSION
+EventEmitter:
+
+✅ Used in Node.js → YES
+
+🔁 Handles event-driven architecture
+
+Socket Descriptor:
+
+✅ Used in networking → YES
+
+⚙️ Managed by OS for connections
